@@ -1,17 +1,19 @@
 FROM ubuntu:24.04
 
-ARG TARGETARCH
+ENV DEBIAN_FRONTEND=noninteractive
 
-# Dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends tini && rm -rf /var/lib/apt/lists/*
-
-# Application
-RUN apt-get update && apt-get install -y curl && \
-    curl -sLo /usr/bin/ttyd https://github.com/tsl0922/ttyd/releases/download/1.7.7/ttyd.x86_64 && \
-    chmod +x /usr/bin/ttyd
+# Install ttyd, tini, and base tools directly via apt
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ttyd \
+    tini \
+    curl \
+    wget \
+    git \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 
 EXPOSE 7681
 WORKDIR /root
 
 ENTRYPOINT ["/usr/bin/tini", "--"]
-CMD ["ttyd", "-W", "bash"]
+CMD ["ttyd", "-p", "7681", "-W", "bash"]
