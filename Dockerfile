@@ -1,6 +1,7 @@
 FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV TERM=xterm-256color
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
@@ -18,4 +19,4 @@ WORKDIR /root
 
 ENTRYPOINT ["/usr/bin/tini", "--"]
 
-CMD ["sh", "-c", "exec gotty -w -p ${PORT:-7681} bash"]
+CMD ["sh", "-c", "exec gotty -w -p ${PORT:-7681} bash -i"]
