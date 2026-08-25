@@ -10,14 +10,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
     git \
     vim \
-    && ARCH=$(dpkg --print-architecture) \
-    && curl -sL "https://github.com/sorenisanerd/gotty/releases/download/v1.5.0/gotty_v1.5.0_linux_${ARCH}.tar.gz" | tar -xz -C /usr/local/bin \
-    && chmod +x /usr/local/bin/gotty \
+    ttyd \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /root
 
 ENTRYPOINT ["/usr/bin/tini", "--"]
 
-# Added --ws-origin '.*' to accept proxy origin headers
-CMD ["sh", "-c", "exec gotty -w -a 0.0.0.0 -p ${PORT:-7681} --ws-origin '.*' bash -l"]
+CMD ["sh", "-c", "exec ttyd -W -p ${PORT:-7681} bash -l"]
