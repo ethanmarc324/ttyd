@@ -13,9 +13,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ttyd \
     && rm -rf /var/lib/apt/lists/*
 
+EXPOSE 8080 7681
 WORKDIR /root
 
 ENTRYPOINT ["/usr/bin/tini", "--"]
 
-# Added -i 0.0.0.0 and -t pingInterval=10 to prevent WebSocket drops
-CMD ["sh", "-c", "exec ttyd -W -i 0.0.0.0 -p ${PORT:-7681} -t pingInterval=10 bash"]
+# Listens on $PORT assigned by host, or defaults to 8080
+CMD ["sh", "-c", "exec ttyd -W -i 0.0.0.0 -p ${PORT:-8080} bash"]
