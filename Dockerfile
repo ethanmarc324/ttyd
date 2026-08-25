@@ -17,4 +17,5 @@ WORKDIR /root
 
 ENTRYPOINT ["/usr/bin/tini", "--"]
 
-CMD ["sh", "-c", "exec ttyd -W -p ${PORT:-7681} bash -l"]
+# Added -i 0.0.0.0 and -t pingInterval=10 to prevent WebSocket drops
+CMD ["sh", "-c", "exec ttyd -W -i 0.0.0.0 -p ${PORT:-7681} -t pingInterval=10 bash"]
