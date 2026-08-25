@@ -19,4 +19,5 @@ WORKDIR /root
 
 ENTRYPOINT ["/usr/bin/tini", "--"]
 
-CMD ["sh", "-c", "exec gotty -w -p ${PORT:-7681} bash -i"]
+# Added --ws-origin '.*' to accept proxy origin headers
+CMD ["sh", "-c", "exec gotty -w -a 0.0.0.0 -p ${PORT:-7681} --ws-origin '.*' bash -l"]
