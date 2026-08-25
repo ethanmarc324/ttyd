@@ -13,8 +13,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && chmod +x /usr/local/bin/gotty \
     && rm -rf /var/lib/apt/lists/*
 
-EXPOSE 7681
 WORKDIR /root
 
 ENTRYPOINT ["/usr/bin/tini", "--"]
-CMD ["gotty", "-w", "-p", "7681", "bash"]
+
+CMD ["sh", "-c", "exec gotty -w -p ${PORT:-7681} bash"]
